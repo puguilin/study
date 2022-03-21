@@ -1,0 +1,150 @@
+
+1 mySql 数据库连接
+   第一步： 引入依赖
+                <dependency>
+                   <groupId>mysql</groupId>
+                   <artifactId>mysql-connector-java</artifactId>
+               </dependency>
+
+   第二步： properties配置文件
+      #数据库配置
+      spring.datasource.url=jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+      spring.datasource.username=root
+      spring.datasource.password=123
+      spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+      # 逆向工具生成时指定的驱动包 如果不需要逆向生成则不需要
+      spring.driverLocation=D:/JX/maven_repository/repository/mysql/mysql-connector-java/8.0.20/mysql-connector-java-8.0.20.jar
+
+
+2 日志存放地址：
+
+    第一步：添加依赖：
+         <dependency>
+              <groupId>commons-logging</groupId>
+              <artifactId>commons-logging</artifactId>
+              <version>1.1.1</version>
+          </dependency>
+
+   第二步： 在 application-dev.properties 文件下配置：
+
+              配置在当前项目下
+             logging.path=./guilin/log
+
+             或者 配置在本地磁盘上
+
+3 < !-- mybatis-plus 依赖 -->
+
+       <!--mybatis-plus自动的维护了mybatis以及mybatis-spring的依赖，
+       在springboot中这三者不能同时的出现，避免版本的冲突，表示：跳进过这个坑（不然很被发现）-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+
+        <!-- MP 核心库 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+        <!-- mybatis-plus代码生成器 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+
+4 <!-- swagger -->
+        高版本访问地址 http://localhost:8081/swagger-ui/
+        低版本访问地址 http://localhost:8080/swagger-ui.html
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>3.0.0</version>
+            <!--解决页面访问 swagger -ui 页面报错 For input string: ““
+            地址：https://blog.csdn.net/m0_47275929/article/details/116694891
+            -->
+            <exclusions>
+                <exclusion>
+                    <groupId>io.swagger</groupId>
+                    <artifactId>swagger-models</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+         <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-models</artifactId>
+            <version>1.5.21</version>
+         </dependency>
+
+5 Quartz 定时任务
+     <!--定时任务 quartz-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-quartz</artifactId>
+            </dependency>
+
+
+   步骤：参考  https://blog.csdn.net/zhizexiaoyao/article/details/118597042
+
+   方式一：
+        1 添加依赖
+        2 创建具体执行类 TaskJob  继承下QuartzJobBean，并重写下里面的方法executeInternal
+               JobExecutionContext工作执行上下文，这里面会包含定时任务的任务设置，
+               触发设置，还有我们设置的jobData传递过来的一些数据，我们在执行的时候就可以获取这些数据来执行我们自己的一些代码处理逻辑。
+        3 创建/实现定时任务接口 ScheduleService
+        4 新建一个实现类 ScheduleServiceImpl  注入任务调度 Scheduler
+        5 创建初始化任务类  SystemSchedulerInit 添加注解@Configuration  如果不需要启动就执行就不需要 也可以在controller 层通过访问方式手动执行
+        6 在启动类上添加 @EnableScheduling
+        7 项目启动就会执行
+   方式二：
+        通过配置类 ScheduleConfig  来启动
+
+   方式三：
+        通过controller层自己手动控制启动
+
+    注意 三者不可以同时使用
+
+
+
+
+6 mybatis-generator 逆向生成工具
+       先导入依赖：
+             <build>
+                 <plugins>
+                     <!--maven插件-->
+                     <plugin>
+                         <groupId>org.springframework.boot</groupId>
+                         <artifactId>spring-boot-maven-plugin</artifactId>
+                     </plugin>
+
+                     <!--mybatis-generator-->
+                     <plugin>
+                         <groupId>org.mybatis.generator</groupId>
+                         <artifactId>mybatis-generator-maven-plugin</artifactId>
+                         <version>1.3.7</version>
+                         <configuration>
+                             <verbose>true</verbose>
+                             <overwrite>true</overwrite>
+                         </configuration>
+                     </plugin>
+                 </plugins>
+             </build>
+
+    第一步： application.properties 配置数据源 并且指定      驱动 driverLocation
+    第二步： 在resources类目录下 创建 generatorConfig.xml文件 配置相关的信息
+    第三歩： 执行 在idea右上角的maven项目中选中
+        Plugins -- -> mybatis-generator -->双击 mybatis-generaor:generate  即可生成
+
+    产生的问题
+        1  控制台可能报log4j 的错误 或者生成重复的节点方法 那就要修改pom.xml 中插件的 版本号
+        2 生成user时 多生成 UserWithBlobs 类
+            解决： 在配置文件中的context中加入 defaultModelType="flat"
+            解释：  <!--defaultModelType="flat" 大数据字段，不分表 -->
+

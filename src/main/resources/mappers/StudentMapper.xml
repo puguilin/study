@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guilin.studycode.generator.dao.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.guilin.studycode.generator.pojo.Student">
+    <constructor>
+      <idArg column="ID" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="SNO" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="SNAME" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="SSEX" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="createDate" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updateDate" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, SNO, SNAME, SSEX, createDate, updateDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from student
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.guilin.studycode.generator.pojo.Student">
+    insert into student (ID, SNO, SNAME, 
+      SSEX, createDate, updateDate
+      )
+    values (#{id,jdbcType=INTEGER}, #{sno,jdbcType=VARCHAR}, #{sname,jdbcType=VARCHAR}, 
+      #{ssex,jdbcType=CHAR}, #{createdate,jdbcType=TIMESTAMP}, #{updatedate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.guilin.studycode.generator.pojo.Student">
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="sno != null">
+        SNO,
+      </if>
+      <if test="sname != null">
+        SNAME,
+      </if>
+      <if test="ssex != null">
+        SSEX,
+      </if>
+      <if test="createdate != null">
+        createDate,
+      </if>
+      <if test="updatedate != null">
+        updateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sno != null">
+        #{sno,jdbcType=VARCHAR},
+      </if>
+      <if test="sname != null">
+        #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="ssex != null">
+        #{ssex,jdbcType=CHAR},
+      </if>
+      <if test="createdate != null">
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedate != null">
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.guilin.studycode.generator.pojo.Student">
+    update student
+    <set>
+      <if test="sno != null">
+        SNO = #{sno,jdbcType=VARCHAR},
+      </if>
+      <if test="sname != null">
+        SNAME = #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="ssex != null">
+        SSEX = #{ssex,jdbcType=CHAR},
+      </if>
+      <if test="createdate != null">
+        createDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedate != null">
+        updateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.guilin.studycode.generator.pojo.Student">
+    update student
+    set SNO = #{sno,jdbcType=VARCHAR},
+      SNAME = #{sname,jdbcType=VARCHAR},
+      SSEX = #{ssex,jdbcType=CHAR},
+      createDate = #{createdate,jdbcType=TIMESTAMP},
+      updateDate = #{updatedate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
