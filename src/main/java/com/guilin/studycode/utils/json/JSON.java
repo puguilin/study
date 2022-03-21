@@ -21,7 +21,6 @@ public class JSON {
 
 
 	public static void main1(String[] args) {
-		
 
 		/**
 		 * json字符串-简单对象型与JSONObject之间的转换
