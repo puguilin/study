@@ -10,7 +10,6 @@ public class JSON {
 	//TODO JSONObject 转 java对象  请看RedisTest 类
 
 
-	
 	//json字符串-简单对象型
 	private static final String  JSON_OBJ_STR = "{\"studentName\":\"lily\",\"studentAge\":12}";
 	//json字符串-数组类型
@@ -20,7 +19,7 @@ public class JSON {
 			+ "{\"courseName\":\"english\",\"code\":1270},\"students\":["
 			+ "{\"studentName\":\"lily\",\"studentAge\":12},{\"studentName\":\"lucy\",\"studentAge\":15}]}";
 
-	
+
 	public static void main1(String[] args) {
 		
 
