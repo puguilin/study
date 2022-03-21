@@ -72,6 +72,8 @@ public class RedisTest {
         Student student1 = JSONObject.toJavaObject(json, Student.class);
         System.out.println("student1 " +student1);
 
+        System.out.println("test" + "fghjkl");
+
 
 
     }
