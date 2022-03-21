@@ -73,6 +73,7 @@ public class RedisTest {
         System.out.println("student1 " +student1);
 
         System.out.println("test" + "fghjkl");
+        System.out.println("test22" + "fghjkl22");
 
 
 
