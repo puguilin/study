@@ -5,7 +5,7 @@ import javax.script.ScriptEngineManager;
 
 /**
  * @desc 判断一个数值，是否在一个区间内
- * @author wangjx
+ * @author puguilin
  */
 public class IntervalUtil {
  

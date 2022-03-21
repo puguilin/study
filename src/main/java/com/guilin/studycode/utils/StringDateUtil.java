@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 /**
  * string to date 的工具类。 stringToDate、dateToString、两个dateFormat方法，每种格式需要一起加注释
  * 
- * @author wangtongzhen
+ * @author puguilin
  */
 public class StringDateUtil {
     /**
@@ -49,7 +49,7 @@ public class StringDateUtil {
      * 返回字符串的字节数
      * 
      * @param str
-     * @author wangtongzhen
+     * @author puguilin
      */
     public static int getStrByteNum(String str) {
         if (str != null) {
@@ -219,7 +219,7 @@ public class StringDateUtil {
      * 截取指定字节数的字符串，此方法避免把汉字一分为二
      *
      * @param str
-     * @author wangtongzhen
+     * @author puguilin
      */
     public static String getCutStrByByte(String str, int chinaSize) {
         int byteSize = chinaSize * 3;//一个汉字等于3个字节
@@ -690,7 +690,7 @@ public class StringDateUtil {
      * @param date
      * @return
      * @return:Date
-     * @author: pingan.yuan@gmail.com
+     * @author: puguilin
      * @date: 2015年4月8日 Modification History: Date Author Version Description
      *        ---------------------------------------------------------*
      *        2015年4月8日 pingan.yuan@gmail.com v1.0.0 reason:
@@ -1390,7 +1390,7 @@ public class StringDateUtil {
      * @param closeTime 结束时间(HH24:MM)
      * @param needDate 需要判断日期(YYYY-MM-DD HH24:MM:SS)
      * @return boolean
-     * @author wangtongzhen
+     * @author puguilin
      * @date 2011-9-21
      */
     public static boolean isValidDate(Date startDate, Date endDate, String beginTime, String closeTime, Date needDate) {

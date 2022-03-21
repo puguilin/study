@@ -806,7 +806,7 @@ public class ExcelTool {
 
     /**
      *  把属性通过换行的方式输出出来
-     * @author ztd
+     * @author puguil
      * @param classPath
      */
     //TODO 有问题

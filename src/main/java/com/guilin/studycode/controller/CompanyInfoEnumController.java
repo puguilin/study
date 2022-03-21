@@ -4,11 +4,6 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.guilin.studycode.utils.CompanyInfoEnum;
 
-
-/**
- *
- *
- */
 public class CompanyInfoEnumController {
 
 

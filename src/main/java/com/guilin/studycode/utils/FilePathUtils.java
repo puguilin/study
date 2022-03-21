@@ -15,7 +15,7 @@ import java.util.UUID;
 /**
  * 文件路径处理工具
  *
- * @author skh
+ * @author puguilin
  * @date:2021-10-20
  */
 public class FilePathUtils {
