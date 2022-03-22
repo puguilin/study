@@ -148,3 +148,47 @@
             解决： 在配置文件中的context中加入 defaultModelType="flat"
             解释：  <!--defaultModelType="flat" 大数据字段，不分表 -->
 
+7 <!-- aop依赖 -->
+    实现AOP记录面向用户的日志  参考 https://www.jianshu.com/p/c7d8e83ebf86
+    1 <!-- aop依赖 -->
+          <dependency>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-starter-aop</artifactId>
+          </dependency>
+    2 修改配置文件
+        在项目的application.properties文件中添加下面一句配置：
+        spring.aop.auto=true
+        特别说明下，这句话不加其实也可以，因为默认就是true，只要我们在pom.xml中添加了依赖就可以了，这里提出来是让大家知道有这个有这个配置。
+    3 自定义注解
+        需要自定义一个注解，使用的时候在需要记录日志的方法上添加这个注解@Log就可以了，首先在启动类的同级包下边新建一个config包，在这个报下边新建new一个名为Log的Annotation文件，文件内容如下：
+    4 准备数据库日志表以及实体类，sql接口
+        向数据库中插入记录，前提需要创建一张记录日志的表 (或者直接用代码生成器生成)
+            CREATE TABLE `sys_log` (
+              `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+              `user_id` int(11) NOT NULL COMMENT '操作员id',
+              `user_action` varchar(255) NOT NULL COMMENT '用户操作',
+              `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='日志记录表';
+    5 AOP的切面和切点
+
+    方式一：实现AOP记录面向开发者的日志（日志入库--日志记录到数据库）
+
+            介绍重点--创建AOP切面实现类，同样我们这里将该类放在config包下，命名为LogAsPect.java,内容如下：
+        6 测试控制器
+            定义一个测试方法，带有两个参数，并且为该方法添加了我们自定义的@Log注解，
+            启动项目，浏览器访问http://localhost:8081/log/aop?name=xfr&nick=eran,这时候查看eclipse控制台的部分输出信息如下：
+                我在目标方法之前执行！
+                我被执行了！
+                当前登陆人：1,类名:com.guilin.studycode.controller.AopLogController,方法名:aop,参数：[xfr, eran],执行时间：2074
+            查看表 也会有记录 sys_log
+
+    方式二：日志不入库，控制台打印出来即可。
+
+        1 首先在LogAsPect.java中定义一个新的切点表达式，如下：
+            @Pointcut("execution(public * com.guilin.studycode.controller..*.*(..))") 表示匹配controller包及其子包下的所有公有方法
+            public void pointcutController() {}
+        2 再添加匹配到方法 around2（）
+        3 再在控制器中添加一个测试方法 testAop3
+            可以看到这个方法我们并没有加上@Log注解，重启项目，浏览器访问http://localhost:8081/log/testaop3?name=xfr&nick=eran,这时候查看eclipse控制台的部分输出信息
+

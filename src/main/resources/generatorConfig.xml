@@ -51,7 +51,7 @@
             targetProject     指定在该项目下所在的路径
         -->
 
-        <javaModelGenerator targetPackage="com.guilin.studycode.generator.pojo" targetProject="./src/main/java">
+        <javaModelGenerator targetPackage="com.guilin.studycode.entrity" targetProject="./src/main/java">
             <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
             <property name="enableSubPackages" value="false"/>
             <!-- 是否对model添加 构造函数 -->
@@ -70,15 +70,15 @@
 
         <!-- targetPackage：mapper接口dao生成的位置 -->
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.guilin.studycode.generator.dao" targetProject="./src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.guilin.studycode.mapper" targetProject="./src/main/java">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 
 
         <!--<table tableName="student" domainObjectName="Student" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <table tableName="student"
-               domainObjectName="Student"
+        <table tableName="sys_log"
+               domainObjectName="sysLog"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
