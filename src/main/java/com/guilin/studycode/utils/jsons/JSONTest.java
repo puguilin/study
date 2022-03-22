@@ -1,10 +1,38 @@
-package com.guilin.studycode.utils.json;
+package com.guilin.studycode.utils.jsons;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.guilin.studycode.entrity.Student;
 
-public class JSON {
+import java.util.HashMap;
+import java.util.Map;
 
+public class JSONTest {
+
+
+	public static void main(String[] args) {
+
+		Student student = new Student();
+		student.setSNAME("test");
+		student.setSNO("005");
+		student.setSSEX("F");
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("1", "value1");
+		map.put("2", "value2");
+		map.put("3", "value3");
+		map.put("学生", student);
+
+		 String str = JSON.toJSONString(map);   //json字符串
+		 JSONObject jsonObject = JSON.parseObject(str);
+		JSONObject json = jsonObject.getJSONObject("学生");
+
+		//JSONObject 转 java对象
+		Student student1 = JSONObject.toJavaObject(json, Student.class);
+		System.out.println("student1 " +student1);
+
+	}
 
 
 	//TODO JSONObject 转 java对象  请看RedisTest 类
@@ -37,7 +65,7 @@ public class JSON {
 
     }
 	
-	public static void main(String[] args) {
+	public static void main4(String[] args) {
 		/**
 	     * json字符串-数组类型与JSONArray之间的转换
 	     */
