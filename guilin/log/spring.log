@@ -77,7 +77,7 @@
 2022-03-18 08:29:34.353  INFO 13108 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2022-03-18 08:29:34.374  INFO 13108 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
 2022-03-18 08:29:34.378  INFO 13108 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
-2022-03-18 08:29:34.389  INFO 13108 --- [main] ConditionEvaluationReportLoggingListener : 
+2022-03-18 08:29:34.389  INFO 13108 --- [main] ConditionEvaluationReportLoggingListener :
 
 Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
 2022-03-18 08:29:34.555 ERROR 13108 --- [main] o.s.boot.SpringApplication               : Application run failed
