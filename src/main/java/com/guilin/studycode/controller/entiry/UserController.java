@@ -1,4 +1,4 @@
-package com.guilin.studycode.controller;
+package com.guilin.studycode.controller.entiry;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;

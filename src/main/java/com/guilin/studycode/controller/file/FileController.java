@@ -1,4 +1,4 @@
-package com.guilin.studycode.controller;
+package com.guilin.studycode.controller.file;
 
 import com.guilin.studycode.entrity.Student;
 import com.guilin.studycode.service.StudentService;

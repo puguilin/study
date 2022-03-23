@@ -1,4 +1,4 @@
-package com.guilin.studycode.controller;
+package com.guilin.studycode.controller.aop;
 
 import com.guilin.studycode.config.Log;
 import com.guilin.studycode.service.SysLogService;

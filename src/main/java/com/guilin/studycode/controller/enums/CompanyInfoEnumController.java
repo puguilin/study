@@ -1,4 +1,4 @@
-package com.guilin.studycode.controller;
+package com.guilin.studycode.controller.enums;
 
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
