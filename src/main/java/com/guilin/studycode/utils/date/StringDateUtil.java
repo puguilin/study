@@ -1,8 +1,6 @@
-package com.guilin.studycode.utils;
+package com.guilin.studycode.utils.date;
 
-import cn.hutool.core.date.DateTime;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -214,6 +212,57 @@ public class StringDateUtil {
         return quarter;
     }
 
+    /**
+     * 返回指定年月的月的第一天
+     *
+     * @param year
+     * @param month
+     * @return
+     */
+    public static Date getFirstDayOfMonth(Integer year, Integer month) {
+        Calendar calendar = Calendar.getInstance();
+        if (year == null) {
+            year = calendar.get(Calendar.YEAR);
+        }
+        if (month == null) {
+            month = calendar.get(Calendar.MONTH);
+        }
+        calendar.set(year, month, 1);
+        return calendar.getTime();
+    }
+
+    /**
+     * 返回指定日期的月的最后几天,0为最后一天1为最后两天
+     *
+     * @param date 时间
+     * @param dayNum 最后几天
+     * @return
+     */
+    public static Date getLastDayOfMonth(Date date,int dayNum) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH), 1,0,0,1);
+        calendar.roll(Calendar.DATE, -1-dayNum);
+        return calendar.getTime();
+    }
+    /**
+     * 返回指定日期的季度的最后几天,0为最后一天1为最后两天
+     *
+     * @param date 时间
+     * @param dayNum 最后几天
+     * @return
+     */
+    public static Date getLastDayOfQuarter(Date date,int dayNum) {
+        int quarter = getQuarter();//获取当前季度
+        int month = quarter * 3 - 1;//获取当前季度最后月 需-1
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(calendar.get(Calendar.YEAR),
+                month, 1,0,0,1);
+        calendar.roll(Calendar.DATE, -1-dayNum);
+        return calendar.getTime();
+    }
 
     /**
      * 截取指定字节数的字符串，此方法避免把汉字一分为二
