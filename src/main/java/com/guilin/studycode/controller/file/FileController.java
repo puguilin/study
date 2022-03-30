@@ -1,5 +1,6 @@
 package com.guilin.studycode.controller.file;
 
+import com.alibaba.fastjson.JSONObject;
 import com.guilin.studycode.entrity.Student;
 import com.guilin.studycode.service.StudentService;
 import com.guilin.studycode.utils.FilePathUtils;
@@ -58,12 +59,36 @@ public class FileController {
 
     @PostMapping("/import")
     @ApiOperation("文件上传 ")
-    public String ExcelImport(
+    public JSONObject ExcelImport(
             @ApiParam (name = "file",value ="上传文件") @RequestPart("file") MultipartFile file, HttpServletRequest request) throws Exception {
-        String originalFilename = file.getOriginalFilename();
+
+        /**
+         *
+         * 获取到的size为：long size1 = file.getSize()
+         * int GB = 1024 * 1024 * 1024;//定义GB的计算常量
+         * int MB = 1024 * 1024;//定义MB的计算常量
+         * int KB = 1024;//定义KB的计算常量
+         */
+
+        JSONObject result = new JSONObject();
+        if (file == null || file.isEmpty()) { //文件判空校验
+            result.put("msg", "未选择需上传的文件");
+            return result;
+        }
+        int size = 1024 * 1024;  //自定义文件上传大小  1MB
+        long fileSize = file.getSize(); //获取文件大小
+        if(fileSize >= size){
+            result.put("msg", "上传的文件不能超过1MB");
+            return result;
+        }
+
+        String originalFilename = file.getOriginalFilename(); //获取文件全名 测试上传.xlsx
+        //originalFilename.endsWith("xlsx") true判断文件是什么类型
+        //获取文件类型 xlsx
         String fileType = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase(Locale.US);
         if (!fileType.equals("xlsx")) {
-            return "文件类型错误,不是excel类型";
+            result.put("msg", "文件类型错误,不是excel类型");
+            return result;
         }
         if (fileType.equals("xlsx")) {
             File fileRest = null;
@@ -73,7 +98,8 @@ public class FileController {
             //开始复制
             FileUtils.copyInputStreamToFile(ins, fileRest);
         }
-        return originalFilename +"上传成功";
+        result.put("msg", originalFilename +"上传成功");
+        return result;
     }
 
 
