@@ -22,7 +22,7 @@ import java.io.IOException;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class FileStreamTest {
+public class O4_FileInputAndOutputStreamTest {
 
     /*
      * 实现对图片的复制操作

@@ -19,7 +19,7 @@ import java.io.IOException;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class FileWriterTest {
+public class O3_FileWriterTest {
 
     /**
      *

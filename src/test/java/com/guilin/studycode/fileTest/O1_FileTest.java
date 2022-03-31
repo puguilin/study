@@ -5,13 +5,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import sun.plugin2.os.windows.Windows;
 
 import java.io.File;
 import java.io.IOException;
 
 /**
- * @description: 文件测试测试
+ * @description: File类的使用
  * @author: puguilin
  * @date: 2022/3/31
  * @version: 1.0
@@ -20,7 +19,7 @@ import java.io.IOException;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class FileTest {
+public class O1_FileTest {
 
     /**
      *

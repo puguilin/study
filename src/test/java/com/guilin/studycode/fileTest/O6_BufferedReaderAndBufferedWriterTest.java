@@ -16,7 +16,7 @@ import java.io.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class BufferedReaderAndBufferedWriterTest {
+public class O6_BufferedReaderAndBufferedWriterTest {
 
 
 

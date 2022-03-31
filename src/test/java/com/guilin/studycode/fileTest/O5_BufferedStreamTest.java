@@ -17,7 +17,7 @@ import java.io.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class BufferedStreamTest {
+public class O5_BufferedStreamTest {
 
     /*
      * 1、缓冲流

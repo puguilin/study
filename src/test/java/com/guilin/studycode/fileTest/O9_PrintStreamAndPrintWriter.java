@@ -19,7 +19,7 @@ import java.io.PrintStream;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class PrintStreamAndPrintWriter {
+public class O9_PrintStreamAndPrintWriter {
 
     /**
      *

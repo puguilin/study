@@ -11,7 +11,7 @@ import java.io.*;
  * @version: 1.0
  */
 
-public class InputStreamReaderTest {
+public class O7_InputStreamReaderTest {
 
     /*
      *

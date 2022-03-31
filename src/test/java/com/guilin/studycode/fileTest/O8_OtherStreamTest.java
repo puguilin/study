@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
  * @version: 1.0
  */
 
-public class OtherStreamTest {
+public class O8_OtherStreamTest {
 
     /*
      * 1、标准的输入、输出流

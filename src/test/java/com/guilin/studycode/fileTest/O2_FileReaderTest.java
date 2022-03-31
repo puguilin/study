@@ -18,7 +18,7 @@ import java.io.IOException;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class FileReaderTest {
+public class O2_FileReaderTest {
 
     /**
      *
