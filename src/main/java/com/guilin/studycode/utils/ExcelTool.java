@@ -13,7 +13,9 @@ import com.guilin.studycode.entrity.Student;
 import com.sun.media.sound.InvalidFormatException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -184,7 +186,7 @@ public class ExcelTool {
             try {
                 return convertDataToDTO(c, list, fileNames);
             } catch (Exception e) {
-                logger.error("出现异常，尽快确认！" + e.getMessage(), e);
+                logger.error("数据转化对象出现异常，尽快确认！" + e.getMessage(), e);
             }
         }
         return result;
@@ -205,13 +207,13 @@ public class ExcelTool {
 
     /**
      * 导出excel
-     * 
+     *  判断了类型是xls 还是xlsx
      * @param c
      * @param list
      * @param feilds
      */
     public static <T> FileOutputStream exportExcel(
-            Class<T> c, List<T> list, String[] feilds, FileOutputStream fileOut,List<String> head ) {
+            Class<T> c, List<T> list, String[] feilds, File file,List<String> head ) {
         T obj;
         try {
             obj = c.newInstance();
@@ -256,8 +258,14 @@ public class ExcelTool {
             logger.error("message:" + e.getMessage(), e);
             throw new RuntimeException(e);
         }
-
-        HSSFWorkbook wb = new HSSFWorkbook();// 产生工作薄对象
+        //判断是xls 还是xlsx
+        Workbook wb = null;
+        if(file.getAbsolutePath().endsWith("xls")){
+            wb = new HSSFWorkbook();// 产生工作薄对象
+        }else {
+            // xlsx
+            wb = new XSSFWorkbook();// 产生工作薄对象
+        }
         Sheet sheet = wb.createSheet();// 产生工作表对象
         wb.setSheetName(0,"测试"); // 设置工作表的名称.
 
@@ -318,7 +326,9 @@ public class ExcelTool {
         }
         ByteArrayOutputStream out = null;
         ByteArrayInputStream in = null;
+        FileOutputStream fileOut = null;
         try {
+            fileOut = new FileOutputStream(file);
             fileOut.flush();
             wb.write(fileOut);
             fileOut.close();
@@ -574,9 +584,9 @@ public class ExcelTool {
             try {
                 obj = c.newInstance();
             } catch (InstantiationException e) {
-                logger.error("出现异常，尽快确认！message:" + e.getMessage(), e);
+                logger.error("实例化对象出现异常，尽快确认！message:" + e.getMessage(), e);
             } catch (IllegalAccessException e) {
-                logger.error("出现异常，尽快确认！message:" + e.getMessage(), e);
+                logger.error("访问权限出现异常，尽快确认！message:" + e.getMessage(), e);
             }
             String[] data = dataList.get(i);
             boolean errorFlag = false;
@@ -593,35 +603,40 @@ public class ExcelTool {
                     int row = i + 1;
                     int col = j + 1;
                     errorDesc.append("第" + row + "行" + col + "列数格式错误;");
-                    logger.error("出现异常，尽快确认！");
+                    logger.error("IllegalAccessException出现异常，尽快确认！");
+                    logger.info("IllegalAccessException出现异常，尽快确认！");
                     errorFlag = true;
                     continue;
                 } catch (SecurityException e) {
                     int row = i + 1;
                     int col = j + 1;
                     errorDesc.append("第" + row + "行" + col + "列数格式错误;");
-                    logger.error("出现异常，尽快确认！");
+                    logger.error("SecurityException出现异常，尽快确认！");
+                    logger.info("SecurityException出现异常，尽快确认！");
                     errorFlag = true;
                     continue;
                 } catch (NoSuchFieldException e) {
                     int row = i + 1;
                     int col = j + 1;
-                    errorDesc.append("第" + row + "行" + col + "列数格式错误;");
-                    logger.error("出现异常，尽快确认！");
+                    errorDesc.append("第" + row + "行" + col + "列数格式错误;" + errorDesc);
+                    logger.error("NoSuchFieldException出现异常，尽快确认！" + errorDesc);
+                    logger.info("NoSuchFieldException出现异常，尽快确认！" + errorDesc);
                     errorFlag = true;
                     continue;
                 } catch (IllegalArgumentException e) {
                     int row = i + 1;
                     int col = j + 1;
                     errorDesc.append("第" + row + "行" + col + "列数格式错误;");
-                    logger.error("出现异常，尽快确认！");
+                    logger.error("IllegalArgumentException出现异常，尽快确认！" + errorDesc);
+                    logger.info("IllegalArgumentException出现异常，尽快确认！" + errorDesc);
                     errorFlag = true;
                     continue;
                 } catch (ParseException e) {
                     int row = i + 1;
                     int col = j + 1;
                     errorDesc.append("第" + row + "行" + col + "列数格式错误;");
-                    logger.error("出现异常，尽快确认！");
+                    logger.error("ParseException出现异常，尽快确认！"  + errorDesc );
+                    logger.info("ParseException出现异常，尽快确认！" + errorDesc);
                     errorFlag = true;
                     continue;
                 }
@@ -645,9 +660,10 @@ public class ExcelTool {
      * @description 获取所有的列
      * @date 2022/3/11 14:23
      */
-/*    public List<String[]> getAllData(int sheetIndex) {
+    public List<String[]> getAllData(int sheetIndex) {
         FileParseResult<T> result = new FileParseResult<T>();
         // T obj = c.newInstance();
+        List<String[]>  dataList = new ArrayList<>();
         int columnNum = 0;
         Sheet sheet = wb.getSheetAt(sheetIndex);
         if (sheet.getRow(0) != null) {
@@ -711,7 +727,7 @@ public class ExcelTool {
         }
 
         return dataList;
-    }*/
+    }
 
 
     /**
@@ -834,12 +850,10 @@ public class ExcelTool {
     public static void main(String[] args) {
 
         //导出excel
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream("E:\\test\\test.xls");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
+        //File file =new File("E:\\fileUp\\test\\test.xls");
+        File file =new File("E:\\fileUp\\test\\test.xlsx");
+        //File file =new File(""); //流出现异常，尽快确认！
         List<Student> list = new ArrayList<Student>();
 
         Student vo = new Student(1,"001","tom","F","测试",new Date(),new Date());
@@ -859,7 +873,9 @@ public class ExcelTool {
         head.add("备注");
         head.add("修改时间");
         head.add("创建时间");
-      //   ExcelTool.exportExcel(Student.class, list, feilds, out,head);
+
+        //导出
+         ExcelTool.exportExcel(Student.class, list, feilds, file,head);
         System.out.println("----执行完毕----------");
     }
 
