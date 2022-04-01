@@ -1,4 +1,4 @@
-package com.guilin.studycode.utils;
+package com.guilin.studycode.utils.filewiths;
 
 import java.io.Serializable;
 import java.util.List;

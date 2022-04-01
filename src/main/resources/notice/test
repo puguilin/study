@@ -192,3 +192,11 @@
         3 再在控制器中添加一个测试方法 testAop3
             可以看到这个方法我们并没有加上@Log注解，重启项目，浏览器访问http://localhost:8081/log/testaop3?name=xfr&nick=eran,这时候查看eclipse控制台的部分输出信息
 
+8 javaIO流--- 文件的操作
+    在测试包中的fileTest 目录下
+        1、路径分隔符
+            Windows：\\   E:\fileUp\test\桌面背景图\壁纸.jpg
+            Linux: /
+
+
+

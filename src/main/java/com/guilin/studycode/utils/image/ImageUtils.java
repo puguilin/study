@@ -4,11 +4,15 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.Base64.Encoder;
+import java.util.Date;
+import java.util.UUID;
 
 public class ImageUtils {
 
@@ -22,7 +26,7 @@ public class ImageUtils {
 	 *
 	 * @param imageBytes  源图片字节数组
 	 * @param desFileSize 指定图片大小，单位kb
-	 * @param imageId     影像编号
+	 * @param //     影像编号
 	 * @return 压缩质量后的图片字节数组
 	 */
 	public static byte[] compressPicForScale(byte[] imageBytes, long desFileSize) {
@@ -177,6 +181,78 @@ public class ImageUtils {
 
 	}
 
+
+	//根据图片地址从互联网下载图片到指定电脑指定位置
+	private static void downlodImg(String imgUrl,File dir ) {
+
+		File file = null;
+		FileOutputStream out = null;
+		HttpURLConnection conn = null;
+		InputStream inputStream = null;
+
+		// 如果保存图片的文件夹不存在，那就创建
+		if (!dir.exists()) {
+			// mkdir()只能创建1级文件夹，而mkdirs()可以创建路径中出现的所有文件夹
+			dir.mkdirs();
+		}
+		try {
+			// 第一个参数是图片存放的路径，第二个参数是图片的名称，这里我采用UUID生成图片名称
+			file = new File(dir, UUID.randomUUID().toString().replace("-", "") + ".jpg");
+			// 构造一个URL对象
+			URL url = new URL(imgUrl);
+			// 获取URLConnection对象
+			conn = (HttpURLConnection) url.openConnection();
+			// 设置请求方式，默认是GET
+			conn.setRequestMethod("GET");
+			// 限制输入流等待数据到达的时间，超时将会抛出java.net.SocketTimeoutException
+			conn.setReadTimeout(3000);
+			// 限制socket等待建立连接的时间，超时将会抛出java.net.SocketTimeoutException
+			conn.setConnectTimeout(3000);
+			// 获取输入流
+			inputStream = conn.getInputStream();
+			// 以流的方式输出图片
+			out = new FileOutputStream(file);
+			byte[] arr = new byte[1024];
+			int len = 0;
+			while ((len = inputStream.read(arr)) != -1) {
+				out.write(arr, 0, len);
+			}
+			out.flush();
+			System.out.println("提醒：图片下载成功！！！");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 回收资源
+			if (out != null) {
+				try {
+					out.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				conn.disconnect();
+			}
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	//根据图片地址从互联网下载图片到指定电脑指定位置
+	public static void main(String[] args) {
+		// 下载图片的地址
+		String imgUrl = "https://bkimg.cdn.bcebos.com/pic/55e736d12f2eb938e8824ef3da628535e4dd6fc7?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2UxMTY=,g_7,xp_5,yp_5/format,f_auto";
+		// 设置保存图片的文件夹路径
+		File dir = new File("E:/fileUp/test/img/" + new SimpleDateFormat("yyyy/MM-dd/HH").format(new Date()));
+		downlodImg(imgUrl,dir);
+	}
+
+
 //	public static void main(String[] args) {
 //		String imgFile = "g://image_svr/6.jpg";// 待处理的图片
 //		InputStream in = null;
@@ -203,5 +279,10 @@ public class ImageUtils {
 //		}
 //
 //	}
+
+
+
+
+
 
 }

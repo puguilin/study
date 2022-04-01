@@ -1,4 +1,4 @@
-package com.guilin.studycode.utils;
+package com.guilin.studycode.utils.filewiths;
 
 import cn.hutool.core.util.IdUtil;
 import org.apache.commons.io.FileUtils;

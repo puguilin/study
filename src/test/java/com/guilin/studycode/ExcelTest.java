@@ -2,7 +2,7 @@ package com.guilin.studycode;
 
 import com.guilin.studycode.entrity.Student;
 import com.guilin.studycode.utils.excel.ExcelTool;
-import com.guilin.studycode.utils.FileParseResult;
+import com.guilin.studycode.utils.filewiths.FileParseResult;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,8 +1,11 @@
 package com.guilin.studycode.utils.ReqParamsHelper;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.Feature;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -22,8 +25,12 @@ import javax.annotation.Resource;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -56,7 +63,108 @@ public class RequestUtil {
 
 
 
-
+    //获取token
+    /**
+     * @param apiUrl: 接口地址
+     * @param username: 用户名
+     * @param password:密码
+     * @param tenantUrl: 租户标识
+     * @return String
+     * @author guilin
+     * @description
+     * @date 2022/4/1 11:13
+     */
+    public  String doPostToken(String apiUrl, String username, String password, String tenantUrl) {
+        HttpURLConnection conn = null;
+        OutputStream out = null;
+        InputStream in = null;
+        String idToken = null;
+        try {
+            // 构造一个URL对象
+            URL url = new URL(apiUrl);
+            // 获取URLConnection对象
+            conn = (HttpURLConnection) url.openConnection();
+            // 限制socket等待建立连接的时间，超时将会抛出java.net.SocketTimeoutException
+            conn.setConnectTimeout(3000);
+            // 限制输入流等待数据到达的时间，超时将会抛出java.net.SocketTimeoutException
+            conn.setReadTimeout(3000);
+            // 设定请求的方法为"POST"，默认是GET
+            conn.setRequestMethod("POST");
+            // 设置传送的内容类型是json格式
+            conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+            // 接收的内容类型也是json格式
+            conn.setRequestProperty("Accept", "application/json;charset=utf-8");
+            // 设置是否从httpUrlConnection读入，默认情况下是true
+            conn.setDoInput(true);
+            // 由于URLConnection在默认的情况下不允许输出，所以在请求输出流之前必须调用setDoOutput(true)。为一个HTTP URL将doOutput设置为true时，请求方法将由GET变为POST
+            conn.setDoOutput(true);
+            // 是否使用缓存，Post方式不能使用缓存
+            conn.setUseCaches(false);
+            // 准备数据
+            JSONObject json = new JSONObject();
+            json.put("username", username);
+            json.put("password", DigestUtils.md5Hex(password));
+            json.put("tenantUrl", tenantUrl);
+            // 返回一个OutputStream，可以用来写入数据传送给服务器
+            out = conn.getOutputStream();
+            // 将数据写入到输出流中
+            out.write(json.toString().getBytes(StandardCharsets.UTF_8));
+            // 刷新管道
+            out.flush();
+            // 建立连接
+            conn.connect();
+            // 判断数字响应码是否是200
+            int responseCode = conn.getResponseCode();
+            String result = "";
+            if (responseCode == 200) {
+                // 获取输入流
+                in = conn.getInputStream();
+                // 获取返回的内容
+                StringWriter sw = new StringWriter();
+                InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
+                char[] buffer = new char[4096];
+                for (int n = 0; -1 != (n = reader.read(buffer)); ) {
+                    sw.write(buffer, 0, n);
+                }
+                result = sw.toString();
+                // 处理返回的内容
+                if (result != null && !"".equals(result.trim())) {
+                    JSONObject rjo = JSONObject.parseObject(result, Feature.OrderedField);
+                    if (rjo != null && rjo.containsKey("retCode")) {
+                        int retCode = rjo.getInteger("retCode");
+                        if (retCode == 0 && rjo.containsKey("data")) {
+                            JSONObject data = rjo.getJSONObject("data");
+                            if (null != data && data.containsKey("idToken")) {
+                                // 获取最终想要的数据
+                                idToken = data.getString("idToken");
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+            throw new RuntimeException("获取token出现连接/超时异常");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("获取token时执行内部代码时出现异常");
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.disconnect();
+                }
+                if (out != null) {
+                    out.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return idToken;
+    }
 
     /**
      *  Map<String,String> queryMap = new HashMap<String,String>();
