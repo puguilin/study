@@ -1,0 +1,22 @@
+1.通过在命令行设置：-Dmaven.test.skip=true
+    1.通过在命令行设置：-Dmaven.test.skip=true
+
+2.通过在命令行设置：-DskipTests
+    2.通过在命令行设置：-DskipTests
+
+3.通过在pom.xml配置文件进行配置
+    <project>
+       [...]
+       <build>
+         <plugins>
+           <plugin>
+             <groupId>org.apache.maven.plugins</groupId>
+             <artifactId>maven-surefire-plugin</artifactId>
+             <configuration>
+               <skipTests>true</skipTests>
+             </configuration>
+           </plugin>
+         </plugins>
+       </build>
+       [...]
+     </project>
