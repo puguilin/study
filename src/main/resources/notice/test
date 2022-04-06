@@ -198,5 +198,52 @@
             Windows：\\   E:\fileUp\test\桌面背景图\壁纸.jpg
             Linux: /
 
+9 Spring Boot 更换 Banner
+
+     1 新建一个banner.txt文件，
+            src/main/resources路径下新建一个banner.txt文件  banner.txt中填写好需要打印的字符串内容即可。
+     2 借助第三方工具帮忙转化内容，如网站http://www.network-science.de/ascii/将文字转化成字符串，
+        网站：http://www.degraeve.com/img2txt.php可以将图片转化成字符串。
+
+10 使用Docker部署Spring Boot  linux 未安装docker 暂时无法通过docker启动
+      参考  https://www.cnblogs.com/ityouknow/p/8599093.html
+
+    1 创建一个 DockerController，在其中有一个index()方法，访问时返回：Hello Docker!
+    2 启动后浏览器放问：http://localhost:8081/，页面返回：Hello Docker!，说明 Spring Boot 项目启动正常
+    3 Spring Boot 项目添加 Docker 支持
+        <properties>
+        	<docker.image.prefix>springboot</docker.image.prefix>
+        </properties>
+    4 plugins 中添加 Docker 构建插件
+        <build>
+        	<plugins>
+        		<!-- Docker maven plugin -->
+        		<plugin>
+        			<groupId>com.spotify</groupId>
+        			<artifactId>docker-maven-plugin</artifactId>
+        			<version>1.0.0</version>
+        			<configuration>
+        				<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+        				<dockerDirectory>src/main/docker</dockerDirectory>
+        				<resources>
+        					<resource>
+        						<targetPath>/</targetPath>
+        						<directory>${project.build.directory}</directory>
+        						<include>${project.build.finalName}.jar</include>
+        					</resource>
+        				</resources>
+        			</configuration>
+        		</plugin>
+        		<!-- Docker maven plugin -->
+        	</plugins>
+        </build>
+    5 在目录src/main/docker下创建 Dockerfile 文件，Dockerfile 文件用来说明如何来构建镜像。
+    6 构建打包环境
+        需要有一个 Docker 环境来打包 Spring Boot 项目，这里以 Centos 7 为例
+        1 安装 Docker 环境  -----resources/notice下的docker安装
+        2 安装JDK
+        3 安装MAVEN
+    7 使用 Docker 部署 Spring Boot 项目 -----resources/notice下的docker部署
+        访问浏览器：http://localhost:8081/
 
 

@@ -16,6 +16,8 @@
     <!--版本控制-->
     <properties>
         <java.version>1.8</java.version>
+        <!--docker 添加对docker的支持-->
+        <docker.image.prefix>springboot</docker.image.prefix>
 
     </properties>
     <dependencies>
@@ -285,7 +287,27 @@
                     <overwrite>true</overwrite>
                 </configuration>
             </plugin>
+            <!-- Docker maven plugin -->
+            <plugin>
+                 <groupId>com.spotify</groupId>
+                 <artifactId>docker-maven-plugin</artifactId>
+                 <version>1.2.1</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+            <!-- Docker maven plugin -->
+
         </plugins>
     </build>
+
 
 </project>
