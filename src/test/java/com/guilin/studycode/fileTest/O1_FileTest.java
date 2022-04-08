@@ -5,9 +5,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * @description: File类的使用
@@ -161,8 +163,8 @@ public class O1_FileTest {
      * public File[] listFiles() ：获取指定目录下的所有文件或者文件目录的File数组
      *
      */
-    @Test
-    public  void getFile(){
+    @Test  // 文件获取  和 判断文件类型  MultipartFile file1
+    public  void getFile(MultipartFile file1){
         File file=new File("E:\\fileUp\\test\\2.txt");
         String absolutePath = file.getAbsolutePath(); //E:\fileUp\test\2.txt
         File parentFile = file.getParentFile(); //E:\fileUp\test
@@ -173,6 +175,23 @@ public class O1_FileTest {
         long l = file.lastModified(); //1648629572774
         String[] list = file.list(); //null
         File[] files = file.listFiles(); //null
+
+
+
+        // MultipartFile file
+        String originalFilename = file1.getOriginalFilename(); //获取文件全名 测试上传.xlsx
+
+        //判断文件类型
+        // 方法一 originalFilename.endsWith("xlsx") true判断文件是什么类型
+
+        // 方法二   if (!originalFilename.matches("^.+\\.(?i)(xls)$") && !originalFilename.matches("^.+\\.(?i)(xlsx)$")) {
+        //            logger.error("上传文件格式不正确");
+        //        }
+        // 方法三 获取文件类型 xlsx
+        String fileType = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase(Locale.US);
+        if (!fileType.equals("xlsx")) {
+            System.out.println("msg文件类型错误不是excel类型" + fileType);
+        }
     }
 
     /**

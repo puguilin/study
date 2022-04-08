@@ -82,9 +82,16 @@ public class FileController {
             return result;
         }
 
+        // MultipartFile file
         String originalFilename = file.getOriginalFilename(); //获取文件全名 测试上传.xlsx
-        //originalFilename.endsWith("xlsx") true判断文件是什么类型
-        //获取文件类型 xlsx
+
+        //判断文件类型
+        // 方法一 originalFilename.endsWith("xlsx") true判断文件是什么类型
+
+//     方法二   if (!originalFilename.matches("^.+\\.(?i)(xls)$") && !originalFilename.matches("^.+\\.(?i)(xlsx)$")) {
+//            logger.error("上传文件格式不正确");
+//        }
+         // 方法三 获取文件类型 xlsx
         String fileType = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase(Locale.US);
         if (!fileType.equals("xlsx")) {
             result.put("msg", "文件类型错误,不是excel类型");
