@@ -103,7 +103,16 @@ public class FileController {
             fileRest = new File( savePathUrl + File.separator + file.getOriginalFilename());
             InputStream ins = file.getInputStream();
             //开始复制
-            FileUtils.copyInputStreamToFile(ins, fileRest);
+            try {
+                FileUtils.copyInputStreamToFile(ins, fileRest);
+                logger.info("复制文件结束");
+            } catch (IOException e) {
+               logger.info(e.getMessage());
+               logger.error("文件复制报错 ==={}",e.getMessage());
+            } finally {
+                //关闭流
+                ins.close();
+            }
         }
         result.put("msg", originalFilename +"上传成功");
         return result;
