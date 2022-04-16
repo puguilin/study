@@ -235,7 +235,11 @@
             <artifactId>spring-boot-starter-quartz</artifactId>
         </dependency>
 
-
+        <!--base64-->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
 
 
 

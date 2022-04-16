@@ -1,4 +1,4 @@
-package com.guilin.studycode;
+package com.guilin.studycode.quartz;
 
 import com.guilin.studycode.scheduler.service.ScheduleService;
 import org.junit.Test;
