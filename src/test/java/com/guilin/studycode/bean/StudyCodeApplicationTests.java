@@ -1,4 +1,4 @@
-package com.guilin.studycode;
+package com.guilin.studycode.bean;
 
 import cn.hutool.core.date.DateTime;
 import com.guilin.studycode.entrity.Student;

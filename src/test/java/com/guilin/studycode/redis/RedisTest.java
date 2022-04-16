@@ -1,4 +1,4 @@
-package com.guilin.studycode;
+package com.guilin.studycode.redis;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;

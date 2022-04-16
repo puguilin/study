@@ -1,4 +1,4 @@
-package com.guilin.studycode;
+package com.guilin.studycode.ip;
 
 import com.alibaba.fastjson.JSONObject;
 import com.guilin.studycode.utils.IpHttpUtils;
