@@ -1,8 +1,11 @@
 package com.guilin.studycode.controller.file;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.guilin.studycode.entrity.Student;
 import com.guilin.studycode.service.StudentService;
+import com.guilin.studycode.utils.ViewExcel;
+import com.guilin.studycode.utils.excel.ExcelUtil3;
 import com.guilin.studycode.utils.filewiths.FilePathUtils;
 import com.guilin.studycode.utils.filewiths.FileTypeParseUtil;
 import com.guilin.studycode.utils.excel.ReadExcelUtil;
@@ -18,27 +21,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
 
 @RequestMapping("/import")
 @RestController
 @Api(tags = "上传相关接口")
 public class FileController {
+
+    ObjectMapper objectMapper = new ObjectMapper();
 
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
     //中间临时文件路径位置
@@ -225,5 +228,144 @@ public class FileController {
 
     }
 
+    // ************************************  ExcelUtil3 工具的使用 ****************************************************
+
+
+    /**
+     * 导入
+     * @author:
+     * @createTime: 2022 年5月17日
+     * @history:
+     * @param request
+     * @param response
+     * @return HashMap<String,Object>
+     */
+    @ResponseBody
+    @PostMapping("batchImport")
+    public String batchImport(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, String> out = new HashMap<String, String>();
+        request.setCharacterEncoding("UTF-8");
+        int successNum = 0;
+        int failureNum = 0;
+        try {
+            MultipartRequest multipartRequest = (MultipartRequest) request;
+            //指定上传文件的名 （postman 调用的时候 key = coalitionExcelFile）
+            MultipartFile excelFile = multipartRequest.getFile("coalitionExcelFile");
+
+            String filename = excelFile.getOriginalFilename();
+            List<List<String>> datas = null;
+            // 读到的数据都在datas里面，根据实际业务逻辑做相应处理
+            if (filename.endsWith("xls")) {// xls格式的文件
+                datas = ExcelUtil3.readXls(excelFile.getInputStream());
+            } else if (filename.endsWith("xlsx")) {// xlsx格式的文件
+                datas = ExcelUtil3.readXlsx(excelFile.getInputStream());
+            }
+
+            int length = datas.size();
+
+            Map<String, String> map = new HashMap<String, String>();
+            for (int i = 0; i < length; i++) {
+                List<String> importList = datas.get(i);
+                String cStreetCodeNew = (String) importList.get(0);//街道
+
+
+                String coalitionNameNew = (String) importList.get(1);
+                String coalitionAddressNew = (String) importList.get(2);
+                String coalitionCircleTypeNew = (String) importList.get(3);
+                String coalitionchnlCodeNew = (String) importList.get(4);
+                String coalitionScNameNew = (String) importList.get(5);
+                String coalitionScPhoneNew = (String) importList.get(6);
+
+                if ("".equals(cStreetCodeNew)) {//街道
+                    failureNum++;
+                    break;
+                }else if(!cStreetCodeNew.substring(0,3).equals("360")){//不是江西省的
+                    failureNum++;
+                    break;
+                }
+
+                if ("".equals(coalitionCircleTypeNew)) {//商盟类型
+                    failureNum++;
+                    break;
+                }
+
+                if ("".equals(coalitionchnlCodeNew)) {//渠道编码
+                    failureNum++;
+                    break;
+                }
+                map.put("cStreetCodeNew", cStreetCodeNew);
+                map.put("coalitionNameNew", coalitionNameNew);
+                map.put("coalitionAddressNew", coalitionAddressNew);
+                map.put("coalitionCircleTypeNew", coalitionCircleTypeNew);
+                map.put("coalitionchnlCodeNew", coalitionchnlCodeNew);
+                map.put("coalitionScNameNew", coalitionScNameNew);
+                map.put("coalitionScPhoneNew", coalitionScPhoneNew);
+                map.put("opt_type", "1");
+                Map<String, String> resultCodeMap = null ;
+                // resultCodeMap = coalitionManageBo.saveCoalitionNew(map);
+
+                if (resultCodeMap.get("code").equals("0000")) {
+                    successNum++;
+
+                } else {
+                    failureNum++;
+                }
+            }
+
+            if (successNum > 0) {
+                out.put("code", "0000");
+                out.put("msg", "操作成功"+successNum+"条,失败"+failureNum+"条");
+            }else{
+                out.put("code", "4444");
+                out.put("msg", "操作成功"+successNum+"条,失败"+failureNum+"条");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.put("code", "4444");
+            out.put("msg", "操作成功"+successNum+"条,失败"+failureNum+"条");
+        }
+        return objectMapper.writeValueAsString(out);
+
+    }
+
+
+    /**
+     * 批量导入--批量导入模板下载
+     */
+    @ResponseBody
+    @PostMapping(value = "/downTemplate")
+    public ModelAndView downTemplate(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
+        //设置列名 start
+        List<String> rowList = new ArrayList<String>();
+        List<String> exampleList = new ArrayList<String>();
+//        if(template.equals("渠道导入模板下载.xls")){
+        model.put("fileName", "coalitionInfoTemplate1");//设置文件文件名
+        model.put("sheetName", "coalitionInfoTemplate1");//设置sheet页名
+
+        rowList.add("详细地址");
+        rowList.add("商业名称");
+        rowList.add("地址名称");
+        rowList.add("类型");
+        rowList.add("渠道编码");
+        rowList.add("会员名");
+        rowList.add("联系电话");
+
+        exampleList.add("360121192");
+        exampleList.add("测试");
+        exampleList.add("经贸广场");
+        exampleList.add("电工");
+        exampleList.add("788885");
+        exampleList.add("jona");
+        exampleList.add("1234567");
+
+        model.put("rowList", rowList);
+        model.put("exampleList", exampleList);
+        model.put("flag", "template");//批量导入模板下载
+        //设置列名 end
+        ViewExcel viewExcel = new ViewExcel();
+        ModelAndView modelAndView = new ModelAndView(viewExcel, model);
+        return modelAndView;
+    }
 
 }
