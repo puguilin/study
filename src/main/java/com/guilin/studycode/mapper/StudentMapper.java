@@ -42,5 +42,9 @@ public interface StudentMapper extends BaseMapper<Student> {
 
     }
 
+    @Insert("insert into student(SNO,SNAME,SSEX,createDate,remark)values" +
+            "(#{SNO},#{SNAME},#{SSEX},#{createDate},#{remark})")
+    public int saveStudentMap(Map<String, String> map);
+
 
 }
