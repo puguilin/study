@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.guilin.studycode.entrity.Student;
 import com.guilin.studycode.service.StudentService;
 import com.guilin.studycode.utils.ViewExcel;
+import com.guilin.studycode.utils.date.StringDateUtil;
 import com.guilin.studycode.utils.excel.ExcelUtil3;
 import com.guilin.studycode.utils.filewiths.FilePathUtils;
 import com.guilin.studycode.utils.filewiths.FileTypeParseUtil;
@@ -33,6 +34,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -228,107 +230,6 @@ public class FileController {
 
     }
 
-    // ************************************  ExcelUtil3 工具的使用 ****************************************************
-
-
-    /**
-     * 导入
-     * @author:
-     * @createTime: 2022 年5月17日
-     * @history:
-     * @param request
-     * @param response
-     * @return HashMap<String,Object>
-     */
-    @ResponseBody
-    @PostMapping("batchImport")
-    public String batchImport(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Map<String, String> out = new HashMap<String, String>();
-        request.setCharacterEncoding("UTF-8");
-        int successNum = 0;
-        int failureNum = 0;
-        try {
-            MultipartRequest multipartRequest = (MultipartRequest) request;
-            //指定上传文件的名 （postman 调用的时候 key = coalitionExcelFile）
-            MultipartFile excelFile = multipartRequest.getFile("coalitionExcelFile");
-
-            String filename = excelFile.getOriginalFilename();
-            List<List<String>> datas = null;
-            // 读到的数据都在datas里面，根据实际业务逻辑做相应处理
-            if (filename.endsWith("xls")) {// xls格式的文件
-                datas = ExcelUtil3.readXls(excelFile.getInputStream());
-            } else if (filename.endsWith("xlsx")) {// xlsx格式的文件
-                datas = ExcelUtil3.readXlsx(excelFile.getInputStream());
-            }
-
-            int length = datas.size();
-
-            Map<String, String> map = new HashMap<String, String>();
-            for (int i = 0; i < length; i++) {
-                List<String> importList = datas.get(i);
-                String cStreetCodeNew = (String) importList.get(0);//街道
-
-
-                String coalitionNameNew = (String) importList.get(1);
-                String coalitionAddressNew = (String) importList.get(2);
-                String coalitionCircleTypeNew = (String) importList.get(3);
-                String coalitionchnlCodeNew = (String) importList.get(4);
-                String coalitionScNameNew = (String) importList.get(5);
-                String coalitionScPhoneNew = (String) importList.get(6);
-
-                if ("".equals(cStreetCodeNew)) {//街道
-                    failureNum++;
-                    break;
-                }else if(!cStreetCodeNew.substring(0,3).equals("360")){//不是江西省的
-                    failureNum++;
-                    break;
-                }
-
-                if ("".equals(coalitionCircleTypeNew)) {//商盟类型
-                    failureNum++;
-                    break;
-                }
-
-                if ("".equals(coalitionchnlCodeNew)) {//渠道编码
-                    failureNum++;
-                    break;
-                }
-                map.put("cStreetCodeNew", cStreetCodeNew);
-                map.put("coalitionNameNew", coalitionNameNew);
-                map.put("coalitionAddressNew", coalitionAddressNew);
-                map.put("coalitionCircleTypeNew", coalitionCircleTypeNew);
-                map.put("coalitionchnlCodeNew", coalitionchnlCodeNew);
-                map.put("coalitionScNameNew", coalitionScNameNew);
-                map.put("coalitionScPhoneNew", coalitionScPhoneNew);
-                map.put("opt_type", "1");
-                Map<String, String> resultCodeMap = null ;
-                // resultCodeMap = coalitionManageBo.saveCoalitionNew(map);
-
-                if (resultCodeMap.get("code").equals("0000")) {
-                    successNum++;
-
-                } else {
-                    failureNum++;
-                }
-            }
-
-            if (successNum > 0) {
-                out.put("code", "0000");
-                out.put("msg", "操作成功"+successNum+"条,失败"+failureNum+"条");
-            }else{
-                out.put("code", "4444");
-                out.put("msg", "操作成功"+successNum+"条,失败"+failureNum+"条");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            out.put("code", "4444");
-            out.put("msg", "操作成功"+successNum+"条,失败"+failureNum+"条");
-        }
-        return objectMapper.writeValueAsString(out);
-
-    }
-
 
     /**
      * 批量导入--批量导入模板下载
@@ -366,6 +267,112 @@ public class FileController {
         ViewExcel viewExcel = new ViewExcel();
         ModelAndView modelAndView = new ModelAndView(viewExcel, model);
         return modelAndView;
+    }
+
+
+    // ************************************  ExcelUtil3 工具的使用 ****************************************************
+
+    /**
+     * 导入
+     * @author:
+     * @createTime: 2022年5月25日   友好的提示 成功几条  失败几条 以及失败的原因是什么
+     * @history:
+     * @param request
+     * @param response
+     * @return HashMap<String,Object>
+     */
+    @ResponseBody
+    @PostMapping("batchImport")
+    public String batchImport(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+
+        Map<String, String> out = new HashMap<String, String>();
+        request.setCharacterEncoding("UTF-8");
+        String errInfo="";
+        int successNum = 0;
+        int failureNum = 0;
+        try {
+            MultipartRequest multipartRequest = (MultipartRequest) request;
+            MultipartFile excelFile = multipartRequest.getFile("edit");
+
+            String filename = excelFile.getOriginalFilename();
+            List<List<String>> datas = null;
+            // 读到的数据都在datas里面，根据实际业务逻辑做相应处理
+            if (filename.endsWith("xls")) {// xls格式的文件
+                datas = ExcelUtil3.readXls(excelFile.getInputStream());
+            } else if (filename.endsWith("xlsx")) {// xlsx格式的文件
+                datas = ExcelUtil3.readXlsx(excelFile.getInputStream());
+            }
+
+            int length = datas.size();
+
+            Map<String, String> map = new HashMap<String, String>();
+            for (int i = 0; i < length; i++) {
+                int j = i+1;
+                List<String> importList = datas.get(i);
+                //校验表格中的数据
+                String street = (String) importList.get(0);//街道
+                String type = (String) importList.get(1);
+                String chanl = (String) importList.get(2);
+                if ("".equals(street)) {//街道
+                    failureNum++;
+                    errInfo = errInfo+"|第"+j+ "行街道为空";
+                    break;
+                }else if(!street.substring(0,2).equals("51")){//不是成都的
+                    failureNum++;
+                    errInfo = errInfo+"|第"+j+ "行街道非成都省内";
+                    break;
+                }
+
+                if ("".equals(type)) {//类型
+                    errInfo = errInfo+"|第"+j+ "支付类型为空";
+                    failureNum++;
+                    break;
+                }
+
+                if ("".equals(chanl)) {//渠道编号
+                    errInfo = errInfo+"|第"+j+ "渠道为空";
+                    failureNum++;
+                    break;
+                }
+
+               // map.put("ID", "1");
+                map.put("SNO", "101");
+                map.put("SNAME", "测试map");
+                map.put("SSEX", "");
+                map.put("remark", "备注");
+                SimpleDateFormat simpleDateFormat = StringDateUtil.dateFormat(4);
+                String createDate = simpleDateFormat.format(new Date());
+                String updateDate = simpleDateFormat.format(new Date());
+                map.put("createDate", createDate);
+               // map.put("updateDate", updateDate);
+                Map<String, String> result = studentService.saveStudentMap(map);;
+
+                if (result.get("code").equals("0000")) {
+                    successNum++;
+
+                } else {
+                    failureNum++;
+                    errInfo = errInfo+"|第"+j+ "行"+result.get("detail");
+                }
+            }
+
+            if (successNum > 0) {
+                out.put("code", "0000");
+                out.put("msg", "操作成功"+successNum+"条,失败"+failureNum+"条");
+            }else{
+                out.put("code", "4444");
+                out.put("msg", "操作成功"+successNum+"条,失败"+failureNum+"条，失败信息为:" +errInfo);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            errInfo = e.getMessage();
+            out.put("code", "4444");
+            out.put("msg", "操作成功"+successNum+"条,失败"+failureNum+"条，失败信息为:" +errInfo);
+        }
+        return objectMapper.writeValueAsString(out);
+
     }
 
 }

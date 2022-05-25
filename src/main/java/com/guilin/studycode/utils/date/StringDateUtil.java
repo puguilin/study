@@ -88,7 +88,7 @@ public class StringDateUtil {
      *
      */
 
-    private static SimpleDateFormat dateFormat(int formatNum) {
+    public static SimpleDateFormat dateFormat(int formatNum) {
         SimpleDateFormat dateFormatter = null;
         switch (formatNum) {
             case 1:

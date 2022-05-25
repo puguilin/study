@@ -9,6 +9,9 @@ import com.guilin.studycode.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Service
 public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> implements StudentService {
@@ -36,6 +39,24 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         IPage<Student> studentIPage = studentMapper.pageQuery(result, ssex,sname);
         return studentIPage;
 
+    }
+
+    @Override
+    public Map<String, String> saveStudentMap(Map<String, String> map) {
+
+        Map<String, String> out = new HashMap();
+        out.put("code", "0000");
+        out.put("detail", "成功");
+        int res = studentMapper.saveStudentMap(map);
+        if(res > 0){
+            out.put("code", "0000");
+            out.put("detail", "保存成功");
+
+        }else {
+            out.put("code", "4444");
+            out.put("detail", "保存失败");
+        }
+        return out;
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.guilin.studycode.service.StudentService;
 import com.guilin.studycode.service.UserService;
 import com.guilin.studycode.utils.MD5Util;
 import com.guilin.studycode.utils.ObjectEmptyUtil;
+import com.guilin.studycode.utils.date.StringDateUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
@@ -16,7 +17,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.guilin.studycode.utils.MD5Util.MD5Encode;
 
@@ -115,4 +119,23 @@ public class StudyCodeApplicationTests {
         }
         System.out.println("user " + user.toString() );
     }
+
+    // 通过map保存
+    @Test
+    public void saveStudentMap() {
+        Map<String, String> out = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("SNO", "102");
+        map.put("SNAME", "测试map2");
+        map.put("SSEX", "M");
+        map.put("remark", "备注");
+        SimpleDateFormat simpleDateFormat = StringDateUtil.dateFormat(4);
+        String createDate = simpleDateFormat.format(new Date());
+        String updateDate = simpleDateFormat.format(new Date());
+        map.put("createDate", createDate);
+        // map.put("updateDate", updateDate);
+        Map<String, String> result = studentService.saveStudentMap(map);;
+        System.out.println(result);
+    }
+
 }

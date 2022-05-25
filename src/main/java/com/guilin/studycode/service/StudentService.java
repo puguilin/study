@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.guilin.studycode.entrity.Student;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public interface StudentService  extends IService<Student> {
 
@@ -22,4 +24,14 @@ public interface StudentService  extends IService<Student> {
      * @return
      */
     IPage<Student> pageQuery(int page, int limit,String ssex,String sname);
+
+
+    /**
+     * map 保存
+     * @param  map
+     * @param
+     * @param
+     * @return
+     */
+    public Map<String, String> saveStudentMap(Map<String, String> map) ;
 }
