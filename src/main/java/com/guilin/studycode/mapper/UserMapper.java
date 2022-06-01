@@ -15,7 +15,7 @@ import java.util.Map;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 
-    @Select("select * from user where id =#{id} and password =#{password}")
+    @Select("select * from tb_user where id =#{id} and password =#{password}")
     User queryByIdAndPassward(int id,String password);
 
     @SelectProvider(type = UserMapper.Query.class, method = "pageQuery")
@@ -25,7 +25,7 @@ public interface UserMapper extends BaseMapper<User> {
 
         public String pageQuery(Map params) {
             StringBuilder stringBuilder = new StringBuilder(
-                    "SELECT * FROM user where 1=1 ");
+                    "SELECT * FROM tb_user where 1=1 ");
             String name = (String) params.get("name");
             String mobile = (String) params.get("mobile");
 

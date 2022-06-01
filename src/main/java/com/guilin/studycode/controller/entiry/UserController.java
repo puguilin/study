@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 import static com.guilin.studycode.utils.MD5Util.MD5Encode;
 
 
@@ -82,13 +84,14 @@ public class UserController {
         User user =new User();
         user.setName(dto.getName());
         user.setAge(dto.getAge());
+        user.setSex(dto.getSex());
         user.setAddress(dto.getAddress());
         user.setHeight(dto.getHeight());
         user.setMobile(dto.getMobile());
+        user.setCreateTime(new Date());
         //加密
-
-        user.setPassword(dto.getPassword());
-
+        String password = MD5Util.KL(MD5Encode(dto.getPassword()));
+        user.setPassword(password);
         boolean b = userService.saveOrUpdate(user);
         if(b){
             logger.info("saveOrUpdate is OK ");
