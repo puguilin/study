@@ -147,6 +147,8 @@
         2 生成user时 多生成 UserWithBlobs 类
             解决： 在配置文件中的context中加入 defaultModelType="flat"
             解释：  <!--defaultModelType="flat" 大数据字段，不分表 -->
+        3,生成失败 是因为读取不到文件  把local中的内容 放到 最外层properties 中即可
+        解决 ：  application-local.properties  可以把这个文件放置同config同级目录下
 
 7 <!-- aop依赖 -->
     实现AOP记录面向用户的日志  参考 https://www.jianshu.com/p/c7d8e83ebf86

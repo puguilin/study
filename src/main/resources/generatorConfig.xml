@@ -4,11 +4,12 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <!--导入属性配置-->
-    <properties resource="application.properties"></properties>
+    <!--导入属性配置application-local.properties-->
+ <!--   <properties resource="application.properties"></properties>-->
+    <properties resource="application-local.properties"></properties>
     <!--指定特定数据库的jdbc驱动jar包的位置-->
-    <classPathEntry location="${spring.driverLocation}"/>
-
+   <!-- <classPathEntry location="${spring.driverLocation}"/>-->
+    <classPathEntry location="E:/maven_repository/mysql/mysql-connector-java/8.0.27/mysql-connector-java-8.0.27.jar" />
 
     <!-- 一个数据库一个context -->
 
@@ -77,8 +78,8 @@
 
 
         <!--<table tableName="student" domainObjectName="Student" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <table tableName="sys_log"
-               domainObjectName="sysLog"
+        <table tableName="cc_setup_info_t"
+               domainObjectName="SetupInfo"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
