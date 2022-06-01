@@ -74,9 +74,10 @@ public class MD5Util {
 
     // 测试主函数
     public static void main(String args[]) {
-        String s = new String("sa");
+        String s = new String("123456");
         System.out.println("原始：" + s);
         System.out.println("MD5后：" + MD5Encode(s));
+        //解密 解密前先对其算法加密在解密
         System.out.println("MD5后再加密：" + KL(MD5Encode(s)));
         System.out.println("解密为MD5后的：" + MD5Decrypt(KL(MD5Encode(s))));
     }

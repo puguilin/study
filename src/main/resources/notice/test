@@ -247,3 +247,9 @@
         访问浏览器：http://localhost:8081/
 
 
+11  md5 加密解密
+    查看这个类 UserController
+    1、加密
+        //添加或修改学生信息 UserController类 的 /saveOrUpdate方法
+    2、解密
+        //查询方法     UserController类 的 /queryByIdAndPassward方法

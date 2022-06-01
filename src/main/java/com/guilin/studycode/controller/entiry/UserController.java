@@ -49,7 +49,12 @@ public class UserController {
     @GetMapping("/queryByIdAndPassward")
     @ApiOperation(value = "根据用户id和密码查询学生信息")
     public User queryById(int id,String password){
-        String md5 = MD5Util.MD5Decrypt((MD5Encode(password)));
+       // String md5 = MD5Util.MD5Decrypt((MD5Encode(password)));
+        //解密
+            // 1 先对其算法加密
+        String kl = MD5Util.KL(MD5Encode(password));
+        // 2 再进行解密
+        String md5 = MD5Util.MD5Decrypt(kl);
         User user = userService.queryByIdAndPassward(id, md5);
         if(ObjectEmptyUtil.isNotEmpty(user)){
           return user;
@@ -90,7 +95,8 @@ public class UserController {
         user.setMobile(dto.getMobile());
         user.setCreateTime(new Date());
         //加密
-        String password = MD5Util.KL(MD5Encode(dto.getPassword()));
+       // String password = MD5Util.KL(MD5Encode(dto.getPassword()));
+        String password = MD5Util.MD5Encode(dto.getPassword());
         user.setPassword(password);
         boolean b = userService.saveOrUpdate(user);
         if(b){
