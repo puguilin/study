@@ -16,8 +16,8 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
-@Table(name = "user")
-@TableName(value="user")
+@Table(name = "tb_user")
+@TableName(value="tb_user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
