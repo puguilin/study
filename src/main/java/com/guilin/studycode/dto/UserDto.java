@@ -41,4 +41,8 @@ public class UserDto {
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd") //后端返回向前台展示的时间格式 yyyy-MM-dd HH:mm:ss
     @TableField("createTime")
     private String createTime;
+    @ApiModelProperty(value = "备注")
+    @TableField("remark") // 数据库不存该字段  可以用来响应
+    private String remark;
+
 }

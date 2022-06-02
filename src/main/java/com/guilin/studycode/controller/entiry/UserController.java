@@ -95,6 +95,7 @@ public class UserController {
         user.setHeight(dto.getHeight());
         user.setMobile(dto.getMobile());
         user.setCreateTime(new Date());
+        user.setRemark(dto.getRemark());
         //加密
        // String password = MD5Util.KL(MD5Encode(dto.getPassword()));
         String password = MD5Util.MD5Encode(dto.getPassword());
