@@ -256,7 +256,7 @@
     2、解密
         //查询方法     UserController类 的 /queryByIdAndPassward方法
 
-12 mysql数据库实现nextval函数  （3,4可以不用操作）
+12 mysql数据库实现nextval函数  （3,4可以不用操作）  https://www.jianshu.com/p/104a216e7db3
     步骤：
     1、新建序列表
         drop table if exists sequence;
