@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,5 +105,12 @@ public class UserController {
         }
     }
 
+    @PostMapping("/getNextvalId")
+    @ApiOperation(value = "获取表中的id")
+    public String  getNextvalId() {
+        String tableName = "seq_test";
+        String id = userMapper.getId(tableName);
+        return id ;
+    }
 
 }

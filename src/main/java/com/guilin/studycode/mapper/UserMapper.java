@@ -40,4 +40,8 @@ public interface UserMapper extends BaseMapper<User> {
 
     }
 
+    //获取seq_test中的序列id
+    @Select("select nextval(#{tableName})")
+    String getId(String tableName);
+
 }
