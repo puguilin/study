@@ -141,6 +141,7 @@
     第二步： 在resources类目录下 创建 generatorConfig.xml文件 配置相关的信息
     第三歩： 执行 在idea右上角的maven项目中选中
         Plugins -- -> mybatis-generator -->双击 mybatis-generaor:generate  即可生成
+        若果配置文件不在resources当前目录下  则带上 ./config/
 
     产生的问题
         1  控制台可能报log4j 的错误 或者生成重复的节点方法 那就要修改pom.xml 中插件的 版本号

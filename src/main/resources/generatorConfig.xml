@@ -6,7 +6,7 @@
 <generatorConfiguration>
     <!--导入属性配置application-local.properties-->
  <!--   <properties resource="application.properties"></properties>-->
-    <properties resource="application-local.properties"></properties>
+    <properties resource="./config/application-local.properties"></properties>
     <!--指定特定数据库的jdbc驱动jar包的位置-->
    <!-- <classPathEntry location="${spring.driverLocation}"/>-->
     <classPathEntry location="E:/maven_repository/mysql/mysql-connector-java/8.0.27/mysql-connector-java-8.0.27.jar" />
