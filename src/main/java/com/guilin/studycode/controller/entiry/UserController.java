@@ -3,6 +3,7 @@ package com.guilin.studycode.controller.entiry;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.guilin.studycode.dto.UserDto;
+import com.guilin.studycode.entrity.Student;
 import com.guilin.studycode.entrity.User;
 import com.guilin.studycode.mapper.UserMapper;
 import com.guilin.studycode.service.UserService;
@@ -21,7 +22,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.guilin.studycode.utils.MD5Util.MD5Encode;
 
@@ -114,4 +118,15 @@ public class UserController {
         return id ;
     }
 
+/*    //根据年龄排序获取用户
+    @GetMapping("/getUserByAge")
+    @ApiOperation(value = "根据年龄排序获取用户")
+    public List<User> getUserByAge() {
+        List<User> list = userService.list();
+        List<User> collect = list.stream()
+                .sorted((e2, e1) -> {
+                    return Integer.valueOf(e2.getAge()) - Integer.valueOf(e1.getAge());
+                }).collect(Collectors.toList());
+        return  collect;
+    }*/
 }
