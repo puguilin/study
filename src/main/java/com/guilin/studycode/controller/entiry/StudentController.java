@@ -8,6 +8,8 @@ import com.guilin.studycode.dto.StudentDto;
 import com.guilin.studycode.entrity.Student;
 import com.guilin.studycode.mapper.StudentMapper;
 import com.guilin.studycode.service.StudentService;
+import com.guilin.studycode.utils.NullProcessUtil;
+import com.guilin.studycode.utils.date.StringDateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -17,8 +19,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RequestMapping("/student")
@@ -97,5 +102,29 @@ public class StudentController {
         }
     }
 
+    // 通过map保存
+    @PostMapping("/saveOrUpdateByMap")
+    @ApiOperation(value = "用map来接受参数——添加或修改学生信息")
+    public Map saveStudentMap(@RequestBody Map map1) {
+        Map<String, String> out = new HashMap<String, String>();
+
+        String SNO = NullProcessUtil.nvlToString(map1.get("SNO"), "");
+
+        Map<String, String> map = new HashMap<String, String>();
+      //  map.put("SNO", SNO);
+        map.put("SNO", "102");
+        map.put("SNAME", "测试map2");
+        map.put("SSEX", "M");
+        map.put("remark", "备注");
+        SimpleDateFormat simpleDateFormat = StringDateUtil.dateFormat(4);
+        String createDate = simpleDateFormat.format(new Date());
+        String updateDate = simpleDateFormat.format(new Date());
+        map.put("createDate", createDate);
+        // map.put("updateDate", updateDate);
+        Map<String, String> result = studentService.saveStudentMap(map);;
+        System.out.println(result);
+        return result;
+
+    }
 
 }
