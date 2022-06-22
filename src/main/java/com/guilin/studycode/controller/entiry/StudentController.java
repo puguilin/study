@@ -67,13 +67,13 @@ public class StudentController {
 
 
     @GetMapping("/orderBy")
-    @ApiOperation(value = "根据条件排序")
+    @ApiOperation(value = "根据条件模糊查询并按条件排序排序")
     public List<Student> orderBy() {
 
         List<Student> studentList=studentMapper.selectList(new QueryWrapper<Student>()
                 .eq("SSEX","F")
                 .like("SNAME", "add")
-                //.orderBy("age")
+                //.orderBy("age")如果学号相同  就按照id降序排列
                 .orderByDesc("SNO","ID")
 
         );
