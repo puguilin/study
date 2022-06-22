@@ -54,7 +54,7 @@ public class StudentController {
     }
 
     @GetMapping("/pageQuery")
-    @ApiOperation(value = "根据条件分页查询")
+    @ApiOperation(value = "根据条件模糊匹配且分页查询")
     @ApiImplicitParams({
     @ApiImplicitParam(name = "page", value = "当前页码", required = true, paramType = "query"),
     @ApiImplicitParam(name = "limit", value = "每页条数", required = true, paramType = "query"),
