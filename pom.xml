@@ -26,11 +26,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--选择要使用的数据库驱动-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.29</version>
         </dependency>
-
         <!-- mybatis-plus 依赖 -->
 
         <!--mybatis-plus自动的维护了mybatis以及mybatis-spring的依赖，
@@ -285,12 +286,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!--选择要使用的数据库驱动-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.29</version>
-        </dependency>
+
 
     </dependencies>
 
