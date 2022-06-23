@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guilin.studycode.mapper.BaseInfoMapper">
+  <resultMap id="BaseResultMap" type="com.guilin.studycode.entrity.BaseInfo">
+    <constructor>
+      <arg column="province" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="city_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="order_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="batch_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="service_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="service_mode" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="apply_event" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="before_fee" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="total_fee" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="cert_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="cert_kind" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="cert_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="contact_phone" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="group_flag" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="card_type" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="deliver_type" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="pay_type" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="if_invoice" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="accept_way" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="accept_mode" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="accept_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="order_status" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="flow_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="contact_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="pay_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="note" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="share_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="remark" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="activation_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="contact_addr" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="match_resource" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="zb_back_jsonstr" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="zb_call_jsonstr" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="setup_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="comm_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="pay_result_jsonstr" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="pay_respons_jsonstr" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="if_first_pay" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <insert id="insert" parameterType="com.guilin.studycode.entrity.BaseInfo">
+    insert into base_info_t (province, city_code, order_id, 
+      batch_id, service_id, service_mode, 
+      apply_event, before_fee, total_fee, 
+      cert_name, cert_kind, cert_code, 
+      contact_phone, group_flag, card_type, 
+      deliver_type, pay_type, if_invoice, 
+      accept_way, accept_mode, accept_date, 
+      order_status, flow_id, contact_id, 
+      pay_id, note, share_id, 
+      remark, activation_type, contact_addr, 
+      match_resource, zb_back_jsonstr, zb_call_jsonstr, 
+      setup_id, comm_id, pay_result_jsonstr, 
+      pay_respons_jsonstr, if_first_pay)
+    values (#{province,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{batchId,jdbcType=VARCHAR}, #{serviceId,jdbcType=VARCHAR}, #{serviceMode,jdbcType=INTEGER}, 
+      #{applyEvent,jdbcType=VARCHAR}, #{beforeFee,jdbcType=VARCHAR}, #{totalFee,jdbcType=VARCHAR}, 
+      #{certName,jdbcType=VARCHAR}, #{certKind,jdbcType=INTEGER}, #{certCode,jdbcType=VARCHAR}, 
+      #{contactPhone,jdbcType=VARCHAR}, #{groupFlag,jdbcType=INTEGER}, #{cardType,jdbcType=INTEGER}, 
+      #{deliverType,jdbcType=INTEGER}, #{payType,jdbcType=INTEGER}, #{ifInvoice,jdbcType=INTEGER}, 
+      #{acceptWay,jdbcType=INTEGER}, #{acceptMode,jdbcType=INTEGER}, #{acceptDate,jdbcType=TIMESTAMP}, 
+      #{orderStatus,jdbcType=INTEGER}, #{flowId,jdbcType=VARCHAR}, #{contactId,jdbcType=VARCHAR}, 
+      #{payId,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{shareId,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{activationType,jdbcType=VARCHAR}, #{contactAddr,jdbcType=VARCHAR}, 
+      #{matchResource,jdbcType=VARCHAR}, #{zbBackJsonstr,jdbcType=VARCHAR}, #{zbCallJsonstr,jdbcType=VARCHAR}, 
+      #{setupId,jdbcType=VARCHAR}, #{commId,jdbcType=VARCHAR}, #{payResultJsonstr,jdbcType=VARCHAR}, 
+      #{payResponsJsonstr,jdbcType=VARCHAR}, #{ifFirstPay,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.guilin.studycode.entrity.BaseInfo">
+    insert into base_info_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="province != null">
+        province,
+      </if>
+      <if test="cityCode != null">
+        city_code,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="batchId != null">
+        batch_id,
+      </if>
+      <if test="serviceId != null">
+        service_id,
+      </if>
+      <if test="serviceMode != null">
+        service_mode,
+      </if>
+      <if test="applyEvent != null">
+        apply_event,
+      </if>
+      <if test="beforeFee != null">
+        before_fee,
+      </if>
+      <if test="totalFee != null">
+        total_fee,
+      </if>
+      <if test="certName != null">
+        cert_name,
+      </if>
+      <if test="certKind != null">
+        cert_kind,
+      </if>
+      <if test="certCode != null">
+        cert_code,
+      </if>
+      <if test="contactPhone != null">
+        contact_phone,
+      </if>
+      <if test="groupFlag != null">
+        group_flag,
+      </if>
+      <if test="cardType != null">
+        card_type,
+      </if>
+      <if test="deliverType != null">
+        deliver_type,
+      </if>
+      <if test="payType != null">
+        pay_type,
+      </if>
+      <if test="ifInvoice != null">
+        if_invoice,
+      </if>
+      <if test="acceptWay != null">
+        accept_way,
+      </if>
+      <if test="acceptMode != null">
+        accept_mode,
+      </if>
+      <if test="acceptDate != null">
+        accept_date,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="flowId != null">
+        flow_id,
+      </if>
+      <if test="contactId != null">
+        contact_id,
+      </if>
+      <if test="payId != null">
+        pay_id,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+      <if test="shareId != null">
+        share_id,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="activationType != null">
+        activation_type,
+      </if>
+      <if test="contactAddr != null">
+        contact_addr,
+      </if>
+      <if test="matchResource != null">
+        match_resource,
+      </if>
+      <if test="zbBackJsonstr != null">
+        zb_back_jsonstr,
+      </if>
+      <if test="zbCallJsonstr != null">
+        zb_call_jsonstr,
+      </if>
+      <if test="setupId != null">
+        setup_id,
+      </if>
+      <if test="commId != null">
+        comm_id,
+      </if>
+      <if test="payResultJsonstr != null">
+        pay_result_jsonstr,
+      </if>
+      <if test="payResponsJsonstr != null">
+        pay_respons_jsonstr,
+      </if>
+      <if test="ifFirstPay != null">
+        if_first_pay,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null">
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchId != null">
+        #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceId != null">
+        #{serviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceMode != null">
+        #{serviceMode,jdbcType=INTEGER},
+      </if>
+      <if test="applyEvent != null">
+        #{applyEvent,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeFee != null">
+        #{beforeFee,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null">
+        #{totalFee,jdbcType=VARCHAR},
+      </if>
+      <if test="certName != null">
+        #{certName,jdbcType=VARCHAR},
+      </if>
+      <if test="certKind != null">
+        #{certKind,jdbcType=INTEGER},
+      </if>
+      <if test="certCode != null">
+        #{certCode,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null">
+        #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="groupFlag != null">
+        #{groupFlag,jdbcType=INTEGER},
+      </if>
+      <if test="cardType != null">
+        #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="deliverType != null">
+        #{deliverType,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null">
+        #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="ifInvoice != null">
+        #{ifInvoice,jdbcType=INTEGER},
+      </if>
+      <if test="acceptWay != null">
+        #{acceptWay,jdbcType=INTEGER},
+      </if>
+      <if test="acceptMode != null">
+        #{acceptMode,jdbcType=INTEGER},
+      </if>
+      <if test="acceptDate != null">
+        #{acceptDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="flowId != null">
+        #{flowId,jdbcType=VARCHAR},
+      </if>
+      <if test="contactId != null">
+        #{contactId,jdbcType=VARCHAR},
+      </if>
+      <if test="payId != null">
+        #{payId,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="shareId != null">
+        #{shareId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="activationType != null">
+        #{activationType,jdbcType=VARCHAR},
+      </if>
+      <if test="contactAddr != null">
+        #{contactAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="matchResource != null">
+        #{matchResource,jdbcType=VARCHAR},
+      </if>
+      <if test="zbBackJsonstr != null">
+        #{zbBackJsonstr,jdbcType=VARCHAR},
+      </if>
+      <if test="zbCallJsonstr != null">
+        #{zbCallJsonstr,jdbcType=VARCHAR},
+      </if>
+      <if test="setupId != null">
+        #{setupId,jdbcType=VARCHAR},
+      </if>
+      <if test="commId != null">
+        #{commId,jdbcType=VARCHAR},
+      </if>
+      <if test="payResultJsonstr != null">
+        #{payResultJsonstr,jdbcType=VARCHAR},
+      </if>
+      <if test="payResponsJsonstr != null">
+        #{payResponsJsonstr,jdbcType=VARCHAR},
+      </if>
+      <if test="ifFirstPay != null">
+        #{ifFirstPay,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

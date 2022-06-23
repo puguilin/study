@@ -149,7 +149,11 @@
             解决： 在配置文件中的context中加入 defaultModelType="flat"
             解释：  <!--defaultModelType="flat" 大数据字段，不分表 -->
         3,生成失败 是因为读取不到文件  把local中的内容 放到 最外层properties 中即可
-        解决 ：  application-local.properties  可以把这个文件放置同config同级目录下
+            解决 ：  application-local.properties  可以把这个文件放置同config同级目录下
+        4、 Mybatis自动生成Xml文件，针对字段类型为text等会默认产生XXXXWithBlobs的方法问题...
+             解决方法 https://blog.csdn.net/weixin_30621711/article/details/96010295?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-3-96010295-blog-83180450.pc_relevant_multi_platform_whitelistv1&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-3-96010295-blog-83180450.pc_relevant_multi_platform_whitelistv1&utm_relevant_index=6
+        5、关于mybatis generator 中没有生成select update delete主键的问题
+
 
 7 <!-- aop依赖 -->
     实现AOP记录面向用户的日志  参考 https://www.jianshu.com/p/c7d8e83ebf86
