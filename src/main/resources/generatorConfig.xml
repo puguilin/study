@@ -78,13 +78,22 @@
 
 
         <!--<table tableName="student" domainObjectName="Student" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <table tableName="cc_setup_info_t"
-               domainObjectName="SetupInfo"
+        <table tableName="base_info_t"
+               domainObjectName="BaseInfo"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                selectByExampleQueryId="false">
+            <!--MySQL表里面的Address字段是text类型的，这样处理产生的Xml文件自动会把这个字段转换为VARCHAR；
+               就不会出现 <resultMap id="ResultMapWithBLOBs"
+               Mybatis自动生成Xml文件，针对字段类型为text等会默认产生XXXXWithBlobs的方法问题...
+               解决方法 https://blog.csdn.net/weixin_30621711/article/details/96010295?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-3-96010295-blog-83180450.pc_relevant_multi_platform_whitelistv1&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-3-96010295-blog-83180450.pc_relevant_multi_platform_whitelistv1&utm_relevant_index=6
+            -->
+            <columnOverride column="zb_back_jsonstr" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <columnOverride column="zb_call_jsonstr" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <columnOverride column="pay_result_jsonstr" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <columnOverride column="pay_respons_jsonstr" javaType="java.lang.String" jdbcType="VARCHAR" />
         </table>
 
 
