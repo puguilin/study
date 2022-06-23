@@ -31,6 +31,8 @@ import java.util.Map;
 @Api(tags = "学生相关接口")
 public class StudentController {
 
+
+    //  通过  Mybatis-Plus插件操作
     private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     @Autowired

@@ -33,6 +33,8 @@ import static com.guilin.studycode.utils.MD5Util.MD5Encode;
 @Api(tags = "用户相关接口")
 public class UserController {
 
+
+    //  通过  Mybatis-Plus插件操作
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired

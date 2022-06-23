@@ -1,9 +1,6 @@
 package com.guilin.studycode.entrity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -41,6 +38,19 @@ public class Student implements Serializable {
     @ApiModelProperty(value = "学生性别")
     @TableField("SSEX")
     private  String SSEX;
+
+    // Mybatis-Plus 默认使用 0 表示有效，1表示无效，当然也可以自定义，有两种方式：
+   /* @ApiModelProperty(value = "删除状态(0--未删除1--已删除)")  // 第一种
+    @TableField("del_flag")
+    @TableLogicprivate
+    private Integer delFlag;*/
+
+    // value = “” 默认的原值，delval = “” 删除后的值
+ /*   @ApiModelProperty(value = "删除状态(0--未删除1--已删除)")  // 第二种
+    @TableField("del_flag")
+    @TableLogic(value = "1", delval = "0")
+    private Integer delFlag;*/
+
 
     /****备注 exist = false 表示不是数据库中的字段 推荐使用 ****/
     @TableField(exist = false)
