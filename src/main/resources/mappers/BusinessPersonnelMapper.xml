@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guilin.studycode.mapper.BusinessPersonnelMapper">
+  <resultMap id="BaseResultMap" type="com.guilin.studycode.entrity.BusinessPersonnel">
+    <constructor>
+      <idArg column="person_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="dev_man_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="city_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="phone_number" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="cert_number" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="role_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="team_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="director" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="director_phone" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="state" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="if_valid" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_time" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="Quit_time" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="education_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    person_id, dev_man_code, city_code, phone_number, `name`, cert_number, role_id, team_id, 
+    director, director_phone, `state`, if_valid, create_time, Quit_time, education_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cc_business_personnel_t
+    where person_id = #{personId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cc_business_personnel_t
+    where person_id = #{personId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.guilin.studycode.entrity.BusinessPersonnel">
+    insert into cc_business_personnel_t (person_id, dev_man_code, city_code, 
+      phone_number, `name`, cert_number, 
+      role_id, team_id, director, 
+      director_phone, `state`, if_valid, 
+      create_time, Quit_time, education_id
+      )
+    values (#{personId,jdbcType=INTEGER}, #{devManCode,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR}, 
+      #{phoneNumber,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{certNumber,jdbcType=VARCHAR}, 
+      #{roleId,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}, #{director,jdbcType=VARCHAR}, 
+      #{directorPhone,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{ifValid,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=VARCHAR}, #{quitTime,jdbcType=VARCHAR}, #{educationId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.guilin.studycode.entrity.BusinessPersonnel">
+    insert into cc_business_personnel_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="personId != null">
+        person_id,
+      </if>
+      <if test="devManCode != null">
+        dev_man_code,
+      </if>
+      <if test="cityCode != null">
+        city_code,
+      </if>
+      <if test="phoneNumber != null">
+        phone_number,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="certNumber != null">
+        cert_number,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="teamId != null">
+        team_id,
+      </if>
+      <if test="director != null">
+        director,
+      </if>
+      <if test="directorPhone != null">
+        director_phone,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+      <if test="ifValid != null">
+        if_valid,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="quitTime != null">
+        Quit_time,
+      </if>
+      <if test="educationId != null">
+        education_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="personId != null">
+        #{personId,jdbcType=INTEGER},
+      </if>
+      <if test="devManCode != null">
+        #{devManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null">
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="certNumber != null">
+        #{certNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null">
+        #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="director != null">
+        #{director,jdbcType=VARCHAR},
+      </if>
+      <if test="directorPhone != null">
+        #{directorPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="ifValid != null">
+        #{ifValid,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="quitTime != null">
+        #{quitTime,jdbcType=VARCHAR},
+      </if>
+      <if test="educationId != null">
+        #{educationId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.guilin.studycode.entrity.BusinessPersonnel">
+    update cc_business_personnel_t
+    <set>
+      <if test="devManCode != null">
+        dev_man_code = #{devManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null">
+        city_code = #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="certNumber != null">
+        cert_number = #{certNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null">
+        team_id = #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="director != null">
+        director = #{director,jdbcType=VARCHAR},
+      </if>
+      <if test="directorPhone != null">
+        director_phone = #{directorPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="ifValid != null">
+        if_valid = #{ifValid,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="quitTime != null">
+        Quit_time = #{quitTime,jdbcType=VARCHAR},
+      </if>
+      <if test="educationId != null">
+        education_id = #{educationId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where person_id = #{personId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.guilin.studycode.entrity.BusinessPersonnel">
+    update cc_business_personnel_t
+    set dev_man_code = #{devManCode,jdbcType=VARCHAR},
+      city_code = #{cityCode,jdbcType=VARCHAR},
+      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      cert_number = #{certNumber,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      team_id = #{teamId,jdbcType=VARCHAR},
+      director = #{director,jdbcType=VARCHAR},
+      director_phone = #{directorPhone,jdbcType=VARCHAR},
+      `state` = #{state,jdbcType=VARCHAR},
+      if_valid = #{ifValid,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      Quit_time = #{quitTime,jdbcType=VARCHAR},
+      education_id = #{educationId,jdbcType=VARCHAR}
+    where person_id = #{personId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -78,8 +78,8 @@
 
 
         <!--<table tableName="student" domainObjectName="Student" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <table tableName="base_info_t"
-               domainObjectName="BaseInfo"
+        <table tableName="cc_business_personnel_t"
+               domainObjectName="BusinessPersonnel"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
