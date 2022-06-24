@@ -28,7 +28,7 @@ import java.util.Map;
 
 @RequestMapping("/student")
 @RestController
-@Api(tags = "学生相关接口")
+@Api(tags = "学生相关接口 -Mybatis-Plus插件操作")
 public class StudentController {
 
 

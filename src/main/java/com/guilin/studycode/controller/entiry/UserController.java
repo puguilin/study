@@ -30,7 +30,7 @@ import static com.guilin.studycode.utils.MD5Util.MD5Encode;
 
 @RequestMapping("/user")
 @RestController
-@Api(tags = "用户相关接口")
+@Api(tags = "用户相关接口 -Mybatis-Plus插件操作")
 public class UserController {
 
 

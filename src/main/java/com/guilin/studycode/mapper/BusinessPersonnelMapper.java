@@ -1,7 +1,9 @@
 package com.guilin.studycode.mapper;
 
 import com.guilin.studycode.entrity.BusinessPersonnel;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface BusinessPersonnelMapper {
     int deleteByPrimaryKey(Integer personId);
 
