@@ -236,6 +236,30 @@
             <version>2.5.0</version>
         </dependency>
 
+        <!-- word转pfd  单独下载的依赖包 下载后直接导入的包-->
+        <dependency>
+            <groupId>com.aspose</groupId>
+            <artifactId>aspose-cells</artifactId>
+            <version>8.3.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/aspose-cells-8.3.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.aspose</groupId>
+            <artifactId>aspose-words</artifactId>
+            <version>15.8.0-jdk16</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/aspose-words-15.8.0-jdk16.jar</systemPath>
+        </dependency>
+
+        <!--导出html的内容到 word/pdf-->
+        <!-- https://mvnrepository.com/artifact/com.lowagie.text/com.springsource.com.lowagie.text -->
+        <dependency>
+            <groupId>com.lowagie.text</groupId>
+            <artifactId>com.springsource.com.lowagie.text</artifactId>
+            <version>2.0.8</version>
+        </dependency>
+
 
         <dependency>
             <groupId>io.springfox</groupId>
